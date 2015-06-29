@@ -1,8 +1,6 @@
-var APP = (function(){
-
-
-  var data = [
-  	{
+// JSON file. Data from 2009 to 2014. 
+[
+  {
     "category":"All",
     "type":"All  Painkillers",
     "2009":553.896,
@@ -192,21 +190,4 @@ var APP = (function(){
     "2013":7.245,
     "2014":7.245
   }
-];
-
-//functions 
-  var parseData = function(){
-  	var object = $.parseJSON(data);
-  	console.log("this runs!");
-  	console.log(data);
-  };
-
-   return {
-   	init: function(data){
-   		parseData();
-   	}
-   }; //end return
-
-})();
-
-APP.init(); 
+]
