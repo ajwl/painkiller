@@ -4,62 +4,74 @@
  <meta charset = "utf-8">
  <title>Britain's pill habit and how much it costs</title>
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css">
+  <!-- Latest compiled and minified CSS -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
  <link rel="stylesheet" href ="css/painkiller.css">
 </head>
 <body>
- <header>
+ <!--container--> 
+ <div class="container">
   <h1>Pill-popping in the UK, how much are we spending to feel better?</h1>
-  <h3>Spend on over-the-counter drugs in the UK, 2009-2014 (£m), Euromonitor</h3>
- </header>
+  <p class="intro">Spend on over-the-counter drugs in the UK, 2009-2014 (£m)</p>
  <!--Charts-->
- <main> 
  <!--All of the totals -->
-  <div id="all" class="chartbox">
-  	<h3 class="headline">All Drugs</h3>
-  	<p class="chart-text"></p>
-        <figure>
-        <div id="chart1"></div>
-        <figcaption>Yearly spend in £m, total spend on each category of drug</figcaption>
-        </figure>
-  </div>
+  <div class="row">
+    <div id="all" class="chartbox col-md-12">
+    	<h2 class="headline">All drugs</h2>
+    	<p class="chart-text"></p>
+          <figure>
+          <div id="chart1"></div>
+          <figcaption>Yearly spend in £m, total spend on each category of drug</figcaption>
+          </figure>
+          <button type="button" class="btn btn-primary" id="allbutton">See chart</button>
+    </div>
+  </div><!--row--> 
 
-  <!--Painkillers -->
-  <div id="painkiller" class="chartbox">
-  	<h3 class="headline">Painkillers</h3>
-  	<p class="chart-text"></p>
-        <figure>
-        <div id="chart2"></div>
-        <figcaption>Yearly spend in £m, total spend on different painkillers</figcaption>
-        </figure>
-  </div>
+    <!--Painkillers -->
+  <div class="row">
+    <div id="painkiller" class="chartbox col-md-12">
+    	<h2 class="headline">Painkillers</h2>
+    	<p class="chart-text"></p>
+          <figure>
+          <div id="chart2"></div>
+          <figcaption>Yearly spend in £m, total spend on different painkillers</figcaption>
+          </figure>
+    </div>
+  </div><!--row--> 
 
-  <!--Coughs, colds and allergies -->
-  <div id="cough" class="chartbox">
-  	<h3 class="headline">Coughs, colds and allergy medicine</h3>
-  	<p class="chart-text"></p>
-        <figure>
-        <div id="chart3"></div>
-        <figcaption>Yearly spend in £m, total spend on different cough, cold and allergy reliefs</figcaption>
-        </figure>
-  </div>
+    <!--Coughs, colds and allergies -->
+    <div class="row">
+      <div id="cough" class="chartbox col-md-12">
+      	<h2 class="headline">Coughs, colds and allergy medicine</h2>
+      	<p class="chart-text"></p>
+            <figure>
+            <div id="chart3"></div>
+            <figcaption>Yearly spend in £m, total spend on different cough, cold and allergy reliefs</figcaption>
+            </figure>
+      </div>
+     </div><!--row-->  
 
-  <!--Digestives -->
-  <div id="digestive" class="chartbox">
-  	<h3 class="headline">Digestive remedies</h3>
-  	<p class="chart-text"></p>
-        <figure>
-        <div id="chart4"></div>
-        <figcaption>Yearly spend in £m, total spend on different digestive remedies</figcaption>
-        </figure>
-  </div>
-
- </main>
+    <!--Digestives -->
+    <div class="row">
+      <div id="digestive" class="chartbox col-md-12">
+      	<h2 class="headline">Digestive remedies</h2>
+      	<p class="chart-text"></p>
+            <figure>
+            <div id="chart4"></div>
+            <figcaption>Yearly spend in £m, total spend on different digestive remedies</figcaption>
+            </figure>
+      </div>
+  </div><!--row--> 
+   
+ </div> <!--container--> 
 
 
  <!--Scripts -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script> 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> 
   <script src ="data/data.js"></script>
   <script src ="js/painkiller.js"></script>
 </body>
