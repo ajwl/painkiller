@@ -192,20 +192,98 @@
     }
   };
 
-
 var APP = (function(){
   var chart, 
-      buttonall = document.getElementById("allbutton");
+      buttonRow = document.getElementById("buttons"),
+      allChart = document.getElementById("allChart"),
+      painkillerChart = document.getElementById("painkillerChart"),
+      coughChart = document.getElementById("coughChart"),
+      digestiveChart = document.getElementById("digestiveChart"),
+      datatouse = {};
+
 
 //functions 
-
-  //make chart function 
-  var makeChart = function(data){
+  
+  var dataForChart = function(e){
     console.log("this runs!");
     console.log(totalData.totalpainkillers);
     console.log(digestiveData.motion["2013"]);
+    console.log(e);
+  
+    //if statement to assign objectdata to button clicked-event target
+    if (e ==="all"){
+        makeChart(totalData);
+        //datatouse = totalData;
+        //a = ["totalpainkillers", "totalcough", "totalpainkillers"];
+    }
+    else if(e === "painkiller"){
+        datatouse = painkillerData;
+        a = ["systemic", "topical", "calming"];
+    }
+    else if(e === "cough"){
+      datatouse = coughData;
+        a = ["allergy","childrens”,”combination","cough", "decongestants", "sweets", "throat"];
+    }
+    else if(e === "digestive"){
+      datatouse = digestiveData;
+        a = ["childrens", "diahorrea", "ibs", "indigestion", "laxatives", "motion"];
+    };
+    console.log("This is datato use" + datatouse);
+    console.log("This is a 1" + a[0]);
+    console.log("Works?" + datatouse.a[0]["type"]);
 
-    //chart 1
+  };
+    //chart generation NEW 
+
+      //make chart function 
+  var makeChart = function(data){
+   var name = data.constructor.name;
+   var category = Object.keys(data); 
+   console.log("The name " + name);
+   console.log(category[0]);
+
+   var chart1 = c3.generate({
+      bindto: "#chart1",
+      data:{
+          columns:[
+              [
+                    name.category[0]["type"], 
+                    datatouse.a[0]["2009"], 
+                    datatouse.a[0]["2010"], 
+                    datatouse.a[0]["2011"], 
+                    datatouse.a[0]["2012"], 
+                    datatouse.a[0]["2013"], 
+                    datatouse.a[0]["2014"]
+              ],
+              [
+                    datatouse.a[0]["type"], 
+                    datatouse.a[0]["2009"], 
+                    datatouse.a[0]["2010"], 
+                    datatouse.a[0]["2011"], 
+                    datatouse.a[0]["2012"], 
+                    datatouse.a[0]["2013"], 
+                    datatouse.a[0]["2014"]
+              ]
+          ],
+        //type: 'bar'
+      },
+      axis:{
+          y:{
+           label:{
+            text: "£ million",
+            position: "outer-middle"
+            } //label
+          },  
+          x:{
+            type: 'category',
+            categories: ['2009', '2010', '2011', '2012', '2013', '2014']
+          } //END x
+        } // END axis
+    }); //END chartgeneration
+
+
+/*
+    //chart generation OLD 
     var chart1 = c3.generate({
       bindto: "#chart1",
       data:{
@@ -247,26 +325,64 @@ var APP = (function(){
           x:{
             type: 'category',
             categories: ['2009', '2010', '2011', '2012', '2013', '2014']
-          } //x
-        } //axis
-
-    }); //chart1generation
-
-    //chart 2 
-
-
+          } //END x
+        } // END axis
+    }); //END chartgeneration
+ */   
   };
 
-  buttonall.addEventListener(
-      onclick,
-      makeChart,
-      false
-    );
-  
+  //small function to show hide different sections on button click
+  var showGraph = function(event){
+      if(event.target.id === "all"){
+        if(allChart.classList.contains("hidden")){
+          allChart.classList.remove("hidden");
+        };
+        painkillerChart.classList.add("hidden");
+        coughChart.classList.add("hidden");
+        digestiveChart.classList.add("hidden");
+      }
+      else if(event.target.id === "painkiller"){
+        if(painkillerChart.classList.contains("hidden")){
+          painkillerChart.classList.remove("hidden");
+        };
+        allChart.classList.add("hidden");
+        coughChart.classList.add("hidden");
+        digestiveChart.classList.add("hidden");
+      }
+      else if(event.target.id === "cough"){
+        if(coughChart.classList.contains("hidden")){
+          coughChart.classList.remove("hidden");
+        };
+        allChart.classList.add("hidden");
+        painkillerChart.classList.add("hidden");
+        digestiveChart.classList.add("hidden");
+      }
+      else if(event.target.id === "digestive"){
+        if(digestiveChart.classList.contains("hidden")){
+          digestiveChart.classList.remove("hidden");
+        };
+        allChart.classList.add("hidden");
+        coughChart.classList.add("hidden");
+        painkillerChart.classList.add("hidden");
+      };
+      dataForChart(event.target.id);
+  };
+
+  //button to show and hide different graphs
+  var buttonclick = function(){
+    buttonRow.addEventListener(
+        "click",
+        function(){
+          console.log(event.target.id);
+          showGraph(event);
+        },
+        false
+      );
+  };
 
    return {
    	init: function(){
-   		makeChart();
+   		buttonclick();
    	}
    }; //end return
 
