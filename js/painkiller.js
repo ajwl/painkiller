@@ -248,9 +248,8 @@ var APP = (function(){
   
   //take the chosen object and turn its data into arrays 
   var processData = function(data){
-    console.dir(data);
+    //clear out datatouse
     var datatouse = [];
-    console.log("datatouse first time" + datatouse);
 
     //Sort this data out - for in loop 
     for(var key in data){
@@ -265,18 +264,16 @@ var APP = (function(){
       }
     }
 
-    //Break the big datatouse array into sets of 7 and push to finaldata
-    var i, j, z, chunk=7, arrname=[],
-      numberKeys = Object.keys(data).length;  
-
-    //check if there is anything in finaldata and delete it if there is 
+    //clearout finaldata 
     var finaldata =[];
+    
+    //Break the big datatouse array into sets of 7 and push to finaldata
+    var i, j, z, chunk=7, arrname=[];
     console.log("this should be zero" + finaldata.length);
     console.log("datatouse second time" + datatouse);
 
     for(i=0, j=datatouse.length; i<j; i+=chunk){
       arrname[z] = datatouse.slice(i, i+chunk);
-      console.log(arrname[z]);
       finaldata.push(arrname[z]);
     }
     return finaldata;
@@ -284,8 +281,6 @@ var APP = (function(){
 
   //make chart function 
   var makeChart = function(finaldata){
-   console.log("this is the final data" + finaldata);
-   //somehow delete existing chart data
 
    var chart1 = c3.generate({
       bindto: "#chart1",
@@ -293,12 +288,17 @@ var APP = (function(){
           columns: finaldata,
           groups: [
               ['type', '2009', '2010', '2011', '2012', '2013', '2014']
-          ]
+          ],
+          labels: {
+              format: function (v, id, i, j) { 
+                //return "data"
+              }
+            }
       },
       axis:{
           y:{
            label:{
-            text: "£ million",
+            text: "Yearly UK spend in £ million",
             position: "outer-middle"
             } //label
           },  
@@ -333,52 +333,3 @@ var APP = (function(){
 })();
 
 APP.init(); 
-
-//NOTES AND OLD CODE 
-/*
-    //chart generation OLD 
-    var chart1 = c3.generate({
-      bindto: "#chart1",
-      data:{
-          columns:[
-              [totalData.totalpainkillers["type"], 
-                totalData.totalpainkillers["2009"], 
-                totalData.totalpainkillers["2010"], 
-                totalData.totalpainkillers["2011"], 
-                totalData.totalpainkillers["2012"], 
-                totalData.totalpainkillers["2013"], 
-                totalData.totalpainkillers["2014"]
-              ],
-              [totalData.totalcough["type"], 
-                totalData.totalcough["2009"], 
-                totalData.totalcough["2010"], 
-                totalData.totalcough["2011"], 
-                totalData.totalcough["2012"], 
-                totalData.totalcough["2013"], 
-                totalData.totalcough["2014"]
-              ],
-              [totalData.totaldigestive["type"], 
-                totalData.totaldigestive["2009"], 
-                totalData.totaldigestive["2010"], 
-                totalData.totaldigestive["2011"], 
-                totalData.totaldigestive["2012"], 
-                totalData.totaldigestive["2013"], 
-                totalData.totaldigestive["2014"]
-              ]
-          ],
-        //type: 'bar'
-      },
-      axis:{
-          y:{
-           label:{
-            text: "£ million",
-            position: "outer-middle"
-            } //label
-          },  
-          x:{
-            type: 'category',
-            categories: ['2009', '2010', '2011', '2012', '2013', '2014']
-          } //END x
-        } // END axis
-    }); //END chartgeneration
- */   
