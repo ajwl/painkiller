@@ -1,7 +1,7 @@
 
   var totalData = {
   	"totalpainkillers": {
-        "type":"Painkillers",
+        "type":"All Painkillers",
         "2009":553.896,
         "2010":547.911,
         "2011":547.029,
@@ -198,36 +198,59 @@ var APP = (function(){
       allChart = document.getElementById("allChart"),
       painkillerChart = document.getElementById("painkillerChart"),
       coughChart = document.getElementById("coughChart"),
-      digestiveChart = document.getElementById("digestiveChart"),
-      datatouse = [];
+      digestiveChart = document.getElementById("digestiveChart");
 
+  //functions 
 
-//functions 
-  
-  var dataForChart = function(e){
-    console.log("this runs!");
-    console.log(totalData.totalpainkillers);
-    console.log(digestiveData.motion["2013"]);
-    console.log(e);
-  
-    //if statement to assign objectdata to button clicked-event target
-    if (e ==="all"){
-      makeChart(processData(totalData));
-    }
-    else if(e === "painkiller"){
-      makeChart(processData(painkillerData));
-    }
-    else if(e === "cough"){
-      makeChart(processData(coughData));
-    }
-    else if(e === "digestive"){
-      makeChart(processData(digestiveData));
-    };
-
+  //use button click to show/hide right section and send right data to makechart
+  var showGraph = function(event){
+      if(event.target.id === "all"){
+        if(allChart.classList.contains("hidden")){
+          allChart.classList.remove("hidden");
+        };
+        painkillerChart.classList.add("hidden");
+        coughChart.classList.add("hidden");
+        digestiveChart.classList.add("hidden");
+        //initiate chart! 
+        makeChart(processData(totalData));
+      }
+      else if(event.target.id === "painkiller"){
+        if(painkillerChart.classList.contains("hidden")){
+          painkillerChart.classList.remove("hidden");
+        };
+        allChart.classList.add("hidden");
+        coughChart.classList.add("hidden");
+        digestiveChart.classList.add("hidden");
+        //initiate chart! 
+        makeChart(processData(painkillerData));
+      }
+      else if(event.target.id === "cough"){
+        if(coughChart.classList.contains("hidden")){
+          coughChart.classList.remove("hidden");
+        };
+        allChart.classList.add("hidden");
+        painkillerChart.classList.add("hidden");
+        digestiveChart.classList.add("hidden");
+        //initiate chart! 
+        makeChart(processData(coughData));
+      }
+      else if(event.target.id === "digestive"){
+        if(digestiveChart.classList.contains("hidden")){
+          digestiveChart.classList.remove("hidden");
+        };
+        allChart.classList.add("hidden");
+        coughChart.classList.add("hidden");
+        painkillerChart.classList.add("hidden");
+        //initiate chart! 
+        makeChart(processData(digestiveData));
+      };
   };
-    //chart generation NEW 
-
+  
+  //take the chosen object and turn its data into arrays 
   var processData = function(data){
+    console.dir(data);
+    var datatouse = [];
+    console.log("datatouse first time" + datatouse);
 
     //Sort this data out - for in loop 
     for(var key in data){
@@ -241,28 +264,33 @@ var APP = (function(){
         datatouse.push(data[key]["2014"]);
       }
     }
-    var i, j, z, chunk=10, arrname=["A","B","C","D","E","F","G"];
 
-    for(z=0; z < arrname.length; z++){
-      for(i=0, j=datatouse.length; i<j; i+=chunk){
-        arrname[z] = datatouse.slice(i, i+chunk);
-        datatouse.push(arrname[z]);
-      }
+    //Break the big datatouse array into sets of 7 and push to finaldata
+    var i, j, z, chunk=7, arrname=[],
+      numberKeys = Object.keys(data).length;  
+
+    //check if there is anything in finaldata and delete it if there is 
+    var finaldata =[];
+    console.log("this should be zero" + finaldata.length);
+    console.log("datatouse second time" + datatouse);
+
+    for(i=0, j=datatouse.length; i<j; i+=chunk){
+      arrname[z] = datatouse.slice(i, i+chunk);
+      console.log(arrname[z]);
+      finaldata.push(arrname[z]);
     }
-    return datatouse;
+    return finaldata;
   };  
 
-      //make chart function 
-  var makeChart = function(datatouse){
-   console.log(datatouse);
-   //console.log(arrname[0]);
+  //make chart function 
+  var makeChart = function(finaldata){
+   console.log("this is the final data" + finaldata);
+   //somehow delete existing chart data
 
    var chart1 = c3.generate({
       bindto: "#chart1",
       data:{
-          //x: 'x',
-          columns: datatouse,
-          type: 'bar',
+          columns: finaldata,
           groups: [
               ['type', '2009', '2010', '2011', '2012', '2013', '2014']
           ]
@@ -278,10 +306,35 @@ var APP = (function(){
             type: 'category',
             categories: ['2009', '2010', '2011', '2012', '2013', '2014']
           } //END x
+
         } // END axis
     }); //END chartgeneration
+  };
 
 
+  //button to show and hide different graphs
+  var buttonclick = function(){
+    buttonRow.addEventListener(
+        "click",
+        function(){
+          console.log(event.target.id);
+          showGraph(event);
+        },
+        false
+      );
+  };
+
+   return {
+   	init: function(){
+   		buttonclick();
+   	}
+   }; //end return
+
+})();
+
+APP.init(); 
+
+//NOTES AND OLD CODE 
 /*
     //chart generation OLD 
     var chart1 = c3.generate({
@@ -329,63 +382,3 @@ var APP = (function(){
         } // END axis
     }); //END chartgeneration
  */   
-  };
-
-  //small function to show hide different sections on button click
-  var showGraph = function(event){
-      if(event.target.id === "all"){
-        if(allChart.classList.contains("hidden")){
-          allChart.classList.remove("hidden");
-        };
-        painkillerChart.classList.add("hidden");
-        coughChart.classList.add("hidden");
-        digestiveChart.classList.add("hidden");
-      }
-      else if(event.target.id === "painkiller"){
-        if(painkillerChart.classList.contains("hidden")){
-          painkillerChart.classList.remove("hidden");
-        };
-        allChart.classList.add("hidden");
-        coughChart.classList.add("hidden");
-        digestiveChart.classList.add("hidden");
-      }
-      else if(event.target.id === "cough"){
-        if(coughChart.classList.contains("hidden")){
-          coughChart.classList.remove("hidden");
-        };
-        allChart.classList.add("hidden");
-        painkillerChart.classList.add("hidden");
-        digestiveChart.classList.add("hidden");
-      }
-      else if(event.target.id === "digestive"){
-        if(digestiveChart.classList.contains("hidden")){
-          digestiveChart.classList.remove("hidden");
-        };
-        allChart.classList.add("hidden");
-        coughChart.classList.add("hidden");
-        painkillerChart.classList.add("hidden");
-      };
-      dataForChart(event.target.id);
-  };
-
-  //button to show and hide different graphs
-  var buttonclick = function(){
-    buttonRow.addEventListener(
-        "click",
-        function(){
-          console.log(event.target.id);
-          showGraph(event);
-        },
-        false
-      );
-  };
-
-   return {
-   	init: function(){
-   		buttonclick();
-   	}
-   }; //end return
-
-})();
-
-APP.init(); 
