@@ -199,7 +199,7 @@ var APP = (function(){
       painkillerChart = document.getElementById("painkillerChart"),
       coughChart = document.getElementById("coughChart"),
       digestiveChart = document.getElementById("digestiveChart"),
-      datatouse = {};
+      datatouse = [];
 
 
 //functions 
@@ -212,60 +212,60 @@ var APP = (function(){
   
     //if statement to assign objectdata to button clicked-event target
     if (e ==="all"){
-        makeChart(totalData);
-        //datatouse = totalData;
-        //a = ["totalpainkillers", "totalcough", "totalpainkillers"];
+      makeChart(processData(totalData));
     }
     else if(e === "painkiller"){
-        datatouse = painkillerData;
-        a = ["systemic", "topical", "calming"];
+      makeChart(processData(painkillerData));
     }
     else if(e === "cough"){
-      datatouse = coughData;
-        a = ["allergy","childrens”,”combination","cough", "decongestants", "sweets", "throat"];
+      makeChart(processData(coughData));
     }
     else if(e === "digestive"){
-      datatouse = digestiveData;
-        a = ["childrens", "diahorrea", "ibs", "indigestion", "laxatives", "motion"];
+      makeChart(processData(digestiveData));
     };
-    console.log("This is datato use" + datatouse);
-    console.log("This is a 1" + a[0]);
-    console.log("Works?" + datatouse.a[0]["type"]);
 
   };
     //chart generation NEW 
 
+  var processData = function(data){
+
+    //Sort this data out - for in loop 
+    for(var key in data){
+      if(data.hasOwnProperty(key)){
+        datatouse.push(data[key]["type"]);
+        datatouse.push(data[key]["2009"]);
+        datatouse.push(data[key]["2010"]);
+        datatouse.push(data[key]["2011"]);
+        datatouse.push(data[key]["2012"]);
+        datatouse.push(data[key]["2013"]);
+        datatouse.push(data[key]["2014"]);
+      }
+    }
+    var i, j, z, chunk=10, arrname=["A","B","C","D","E","F","G"];
+
+    for(z=0; z < arrname.length; z++){
+      for(i=0, j=datatouse.length; i<j; i+=chunk){
+        arrname[z] = datatouse.slice(i, i+chunk);
+        datatouse.push(arrname[z]);
+      }
+    }
+    return datatouse;
+  };  
+
       //make chart function 
-  var makeChart = function(data){
-   var name = data.constructor.name;
-   var category = Object.keys(data); 
-   console.log("The name " + name);
-   console.log(category[0]);
+  var makeChart = function(datatouse){
+   console.log(datatouse);
+   //console.log(arrname[0]);
 
    var chart1 = c3.generate({
       bindto: "#chart1",
       data:{
-          columns:[
-              [
-                    name.category[0]["type"], 
-                    datatouse.a[0]["2009"], 
-                    datatouse.a[0]["2010"], 
-                    datatouse.a[0]["2011"], 
-                    datatouse.a[0]["2012"], 
-                    datatouse.a[0]["2013"], 
-                    datatouse.a[0]["2014"]
-              ],
-              [
-                    datatouse.a[0]["type"], 
-                    datatouse.a[0]["2009"], 
-                    datatouse.a[0]["2010"], 
-                    datatouse.a[0]["2011"], 
-                    datatouse.a[0]["2012"], 
-                    datatouse.a[0]["2013"], 
-                    datatouse.a[0]["2014"]
-              ]
-          ],
-        //type: 'bar'
+          //x: 'x',
+          columns: datatouse,
+          type: 'bar',
+          groups: [
+              ['type', '2009', '2010', '2011', '2012', '2013', '2014']
+          ]
       },
       axis:{
           y:{
